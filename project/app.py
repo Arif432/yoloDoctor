@@ -4,6 +4,8 @@ from flask import Flask, render_template, request, send_from_directory, redirect
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageEnhance, ImageFilter
 from ultralytics import YOLO
+from scipy.ndimage import median_filter
+import numpy as np
 
 app = Flask(__name__)
 
@@ -44,10 +46,9 @@ def brightness_adjustment(image):
     enhanced_image = enhancer.enhance(1.2)  # Increase brightness by 20%
     return enhanced_image
 
-def sharpness_enhancement(image):
-    enhancer = ImageEnhance.Sharpness(image)
-    enhanced_image = enhancer.enhance(2.0)  # Increase sharpness by factor of 2
-    return enhanced_image
+def unblur_image(image):
+    unblurred_image = image.filter(ImageFilter.UnsharpMask(radius=2, percent=150, threshold=3))
+    return unblurred_image
 
 def predict_with_yolo(img_path):
     img = Image.open(img_path)
@@ -69,11 +70,11 @@ def predict_img():
                 
                 # Load the image and apply enhancements
                 img = Image.open(filepath)
-                img = gaussian_blur(img)
-                img = grayscaling(img)
+                img = unblur_image(img)
                 img = contrast_enhancement(img)
                 img = brightness_adjustment(img)
-                img = sharpness_enhancement(img)
+                img = gaussian_blur(img)
+
                 img.save(filepath)  # Overwrite the original image with the processed one
                 
                 detections = predict_with_yolo(filepath)
