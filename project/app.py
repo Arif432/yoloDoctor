@@ -49,7 +49,10 @@ def brightness_adjustment(image):
 def unblur_image(image):
     unblurred_image = image.filter(ImageFilter.UnsharpMask(radius=2, percent=150, threshold=3))
     return unblurred_image
-
+def binarization(image):
+    threshold_value = 128  # Adjust threshold value as needed
+    binary_image = image.point(lambda p: 255 if p > threshold_value else 0)  # Convert to binary
+    return binary_image
 def predict_with_yolo(img_path):
     img = Image.open(img_path)
     yolo = YOLO("best.pt")
@@ -72,8 +75,9 @@ def predict_img():
                 img = Image.open(filepath)
                 img = unblur_image(img)
                 img = contrast_enhancement(img)
-                img = brightness_adjustment(img)
-                img = gaussian_blur(img)
+                # img = brightness_adjustment(img)
+                # img = gaussian_blur(img)
+                # img = binarization(img)
 
                 img.save(filepath)  # Overwrite the original image with the processed one
                 
