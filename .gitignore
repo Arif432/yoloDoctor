@@ -1,0 +1,89 @@
+
+# ignore nodemodules
+
+
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules/
+
+# testing
+coverage/
+
+# production
+build/
+
+# misc
+.DS_Store
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Optional REPL history
+.node_repl_history
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+out/
+
+# Next.js
+.next/
+
+# Nuxt.js
+.nuxt/
+dist/
+
+# SvelteKit
+.svelte-kit/
+
+# Vue.js
+.vuepress/
+dist/
+public/
+docs/.vuepress/dist
+
+# Angular
+.angular/
+out-tsc/
+dist/
+tmp/

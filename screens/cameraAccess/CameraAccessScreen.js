@@ -16,24 +16,29 @@ import {
   takePicture,
 } from "./components/CameraAccess";
 import { saveImage } from "./components/SaveImage";
-import sendImageToServer from "../../Helper/sendImageToServer";
 import { Dialog, Portal, ActivityIndicator, Text } from "react-native-paper";
+import sendImageToServer from "../../sendImageToServer";
 
 const CameraAccessScreen = () => {
-  const FLASK_SERVER_URL = "http://192.168.100.222";
+  const FLASK_SERVER_URL = "http://192.168.100.178";
   const [selectedImage, setSelectedImage] = useState(null);
   const [showLatestImage, setShowLatestImage] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [processing, setProcessing] = useState(false);
 
+  
+  const [resultText, setResultText] = useState(''); // State to hold result tex
+
   const serverSent = async () => {
     try {
       setProcessing(true); // Start processing
-      await sendImageToServer(selectedImage, FLASK_SERVER_URL);
+      const result = await sendImageToServer(selectedImage, FLASK_SERVER_URL);
       // dialog success here
+      setResultText(result); // Set result text
+      console.log("res,res",result);
       setShowDialog(true); // Show dialog on success
       setShowLatestImage(
-        `http://192.168.100.222/display_latest_image?v=${Math.random()}`
+        `http://192.168.100.178/display_latest_image?v=${Math.random()}`
       );
       // setTimeout(fetchLatestImage, 3000);
     } catch (error) {
@@ -85,6 +90,12 @@ const CameraAccessScreen = () => {
           <Text style={styles.processingText}>
             Please wait while processing...
           </Text>
+        </View>
+      )}
+
+      {resultText && ( // Display result text if available
+        <View style={styles.resultContainer}>
+          <Text style={styles.resultText}>Result: {resultText}</Text>
         </View>
       )}
 
@@ -198,5 +209,13 @@ const styles = StyleSheet.create({
   },
   processingText: {
     marginLeft: 12, // Add some space between the indicator and text
+  },
+  resultContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  resultText: {
+    fontSize: 18,
+    color: "#333",
   },
 });

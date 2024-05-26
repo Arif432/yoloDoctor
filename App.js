@@ -1,19 +1,20 @@
-import React, { useCallback, useMemo, useState, useEffect } from "react";
-import { Text } from "react-native";
+import React from "react";
+import { Provider as PaperProvider } from "react-native-paper"; // Import the Provider component
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootSiblingParent } from "react-native-root-siblings";
 import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./Navigator"; // Import the AppNavigator
 
 export default function App() {
-
   return (
-    <RootSiblingParent>
+    <PaperProvider>
+      <RootSiblingParent>
         <SafeAreaProvider>
-              <NavigationContainer>
-                <AppNavigator />
-              </NavigationContainer>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
         </SafeAreaProvider>
-    </RootSiblingParent>
+      </RootSiblingParent>
+    </PaperProvider>
   );
 }
